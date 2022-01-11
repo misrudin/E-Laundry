@@ -1,10 +1,11 @@
 package com.laundry;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Scanner;
 
 public class AmbilCucian {
-    static void ambilCucian(List<Transaksi> listTransaction) {
+    static void ambilCucian(List<Transaksi> listTransaction) throws ParseException {
         Scanner input = new Scanner(System.in);
         boolean isRunning = true;
 
@@ -37,7 +38,7 @@ public class AmbilCucian {
         } while (isRunning);
     }
 
-    static void ambilCucianByPhone(List<Transaksi> listTransaction) {
+    static void ambilCucianByPhone(List<Transaksi> listTransaction) throws ParseException {
         Scanner input = new Scanner(System.in);
         boolean isRunning = true;
 
@@ -73,7 +74,7 @@ public class AmbilCucian {
         } while (isRunning);
     }
 
-    static void ambilCucianByKwitansi(List<Transaksi> listTransaction) {
+    static void ambilCucianByKwitansi(List<Transaksi> listTransaction) throws ParseException {
         Scanner input = new Scanner(System.in);
         boolean isRunning = true;
         do {
@@ -106,10 +107,18 @@ public class AmbilCucian {
         return listTransaction.indexOf(transaksi);
     }
 
-    static boolean ambilCucian(Transaksi transaksi) {
+    static boolean ambilCucian(Transaksi transaksi) throws ParseException {
         if(transaksi.status == StatusTransaksi.DONE) {
             System.out.println("+-------------------------------------------------------------+");
-            System.out.println("+      Cucian sudah diambil pada tanggal: " + transaksi.getUpdateAt() + "    +");
+            System.out.println("+      Cucian sudah diambil pada tanggal: " + transaksi.getUpdateAt() + "     +");
+            System.out.println("+-------------------------------------------------------------+");
+            return false;
+        }
+
+        String estimateDate = Utils.getEstimateFrom(transaksi.getCreatedAt(), transaksi.getService().getEstimate());
+        if (Utils.dateDiff(estimateDate) > 0) {
+            System.out.println("+-------------------------------------------------------------+");
+            System.out.println("+      Cucian dapat diambil pada tanggal: " + estimateDate + "   +");
             System.out.println("+-------------------------------------------------------------+");
             return false;
         }
@@ -127,12 +136,12 @@ public class AmbilCucian {
             Cart item = carts.get(i);
             String qty = item.getLaundry().getType() == TypeLaundry.KILOAN ? String.valueOf(item.getWeight()) + " Kg"
                     : String.valueOf(item.getQty()) + " Pcs";
-            Utils.print(String.valueOf(i + 1) + ". " + item.getLaundry().getName() + " " + qty + " " +
+            System.out.println(String.valueOf(i + 1) + ". " + item.getLaundry().getName() + " " + qty + " " +
                     "("+item.getService().getName() + ") Rp" + String.format("%,.0f", item.getTotalPrice()));
         }
         System.out.println("-----------------------------------------------------");
+        System.out.println("Status            : "+ transaksi.getStatus().status);
         System.out.println("Total Tagihan     : " + String.format("%,.0f", transaksi.getTotalPrice()));
-        System.out.println("Status Pembayaran : LUNAS");
         System.out.println("=====================================================");
         System.out.println("");
         System.out.println("Apakah data sudah benar? ");

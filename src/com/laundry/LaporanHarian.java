@@ -1,12 +1,13 @@
 package com.laundry;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
 public class LaporanHarian {
-    static void laporanHarian(List<Transaksi> listTransaction) {
+    static void laporanHarian(List<Transaksi> listTransaction) throws ParseException {
         if (listTransaction.size() == 0) {
             System.out.println("Belum ada transaksi.");
             return;
@@ -31,16 +32,7 @@ public class LaporanHarian {
             int selected = input.nextInt();
             switch (selected) {
                 case 1:
-                    System.out.print("Silahkan masukan no. kwitansi: ");
-                    String kwitansi = input.nextLine();
-                    Transaksi hasRow = Utils.findTransaksiByKwitansi(kwitansi, listTransaction);
-                    if (hasRow != null) {
-                        showDetail(hasRow);
-                    } else {
-                        System.out.println("+-------------------------+");
-                        System.out.println("+  Data tidak ditemukan   +");
-                        System.out.println("+-------------------------+");
-                    }
+                    inputDetail(listTransaction);
                     break;
                 case 2:
                     AmbilCucian.ambilCucian(listTransaction);
@@ -57,10 +49,26 @@ public class LaporanHarian {
         } while (isRunning);
     }
 
+    static void inputDetail(List<Transaksi> listTransaction) {
+        boolean isRunning = false;
+        Scanner input = new Scanner(System.in);
+
+        do {
+            System.out.print("Silahkan masukan no. kwitansi: ");
+            String kwitansi = input.nextLine();
+            Transaksi hasRow = Utils.findTransaksiByKwitansi(kwitansi, listTransaction);
+            if (hasRow != null) {
+                showDetail(hasRow);
+            } else {
+                System.out.println("+-------------------------+");
+                System.out.println("+  Data tidak ditemukan   +");
+                System.out.println("+-------------------------+");
+            }
+        } while (isRunning);
+    }
+
     static void showDetail(Transaksi transaksi) {
         List<Cart> carts = transaksi.getCarts();
-        System.out.println("Cucian yang akan di ambil");
-        System.out.println("");
         System.out.println("=====================================================");
         System.out.println("No. Kwitansi    : "+ transaksi.getNoKwitansi());
         System.out.println("Nama            : "+ transaksi.getPelanggan().getName());
@@ -70,12 +78,15 @@ public class LaporanHarian {
             Cart item = carts.get(i);
             String qty = item.getLaundry().getType() == TypeLaundry.KILOAN ? String.valueOf(item.getWeight()) + " Kg"
                     : String.valueOf(item.getQty()) + " Pcs";
-            Utils.print(String.valueOf(i + 1) + ". " + item.getLaundry().getName() + " " + qty + " " +
+            System.out.println(String.valueOf(i + 1) + ". " + item.getLaundry().getName() + " " + qty + " " +
                     "("+item.getService().getName() + ") Rp" + String.format("%,.0f", item.getTotalPrice()));
         }
         System.out.println("-----------------------------------------------------");
+        System.out.println("Status            : "+ transaksi.getStatus().status);
+        if(transaksi.getStatus() == StatusTransaksi.DONE) {
+            System.out.println("Tanggal Ambil     : "+ transaksi.getUpdateAt());
+        }
         System.out.println("Total Tagihan     : " + String.format("%,.0f", transaksi.getTotalPrice()));
-        System.out.println("Status Pembayaran : LUNAS");
         System.out.println("=====================================================");
     }
 }

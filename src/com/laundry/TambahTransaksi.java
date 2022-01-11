@@ -36,13 +36,13 @@ public class TambahTransaksi {
         String phone = input.nextLine();
         pelanggan.setPhone(phone);
 
+        Utils.showServiceList(serviceList);
+        int selectedService = input.nextInt();
+        Service service = Utils.findServiceItem(selectedService, serviceList);
+
         do {
             float weight = 0;
             int qty = 0;
-
-            Utils.showServiceList(serviceList);
-            int selectedService = input.nextInt();
-            Service service = Utils.findServiceItem(selectedService, serviceList);
 
             Utils.showLaundryList(laundryList);
             int selectedLaundry = input.nextInt();
@@ -64,7 +64,7 @@ public class TambahTransaksi {
             carts.add(new Cart(id, laundry, service, qty, weight));
             id++;
 
-            isInputLaundry = Utils.addMoreLaundry();
+            isInputLaundry = addMoreLaundry();
         } while (isInputLaundry);
 
         System.out.println("=============== DETAIL TRANSAKSI ==================");
@@ -72,8 +72,8 @@ public class TambahTransaksi {
             Cart item = carts.get(i);
             String qty = item.getLaundry().getType() == TypeLaundry.KILOAN ? String.valueOf(item.getWeight()) + " Kg"
                     : String.valueOf(item.getQty()) + " Pcs";
-            Utils.print(String.valueOf(i + 1) + ". " + item.getLaundry().getName() + " " + qty + " " +
-                    "("+item.getService().getName() + ") Rp" + String.format("%,.0f", item.getTotalPrice()));
+            System.out.println(String.valueOf(i + 1) + ". " + item.getLaundry().getName() + " " + qty + " " +
+                    "(" + item.getService().getName() + ") Rp" + String.format("%,.0f", item.getTotalPrice()));
             totalBill += item.getTotalPrice();
         }
         System.out.println("---------------------------------------------------");
@@ -97,10 +97,22 @@ public class TambahTransaksi {
         } while (isPaymentProcess);
 
 
-
-
-        Transaksi transaksi = new Transaksi(Utils.getDateTimeNow(), pelanggan, carts, Utils.generateKwitansi(), totalBill);
+        Transaksi transaksi = new Transaksi(Utils.generateKwitansi(),
+                                            pelanggan,
+                                            carts,
+                                            Utils.getDateTimeNow(),
+                                            totalBill,
+                                            service);
         Utils.showKwitansi(transaksi, kembalian);
         return transaksi;
+    }
+
+    static boolean addMoreLaundry() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("+===================================+");
+        System.out.println("|   [1] TAMBAH CUCIAN | [2] BAYAR   |");
+        System.out.println("+===================================+");
+        System.out.print("Masukan pilihan anda: ");
+        return input.nextInt() == 1;
     }
 }

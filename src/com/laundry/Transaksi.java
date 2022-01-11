@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Transaksi {
-    private String noKwitansi;
+    String noKwitansi;
     Pelanggan pelanggan;
     List<Cart> carts = new ArrayList<>();
     private String createdAt;
-    private double totalPrice;
+    double totalPrice;
     StatusTransaksi status;
+    private String updateAt;
 
     public Transaksi(String noKwitansi, Pelanggan pelanggan, List<Cart> carts, String createdAt, double totalPrice) {
         this.noKwitansi = noKwitansi;
@@ -17,7 +18,15 @@ public class Transaksi {
         this.carts = carts;
         this.createdAt = createdAt;
         this.totalPrice = totalPrice;
-        this.status = StatusTransaksi.PENDING;
+        this.status = StatusTransaksi.PROCESS;
+    }
+
+    public String getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(String updateAt) {
+        this.updateAt = updateAt;
     }
 
     public String getNoKwitansi() {

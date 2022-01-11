@@ -67,7 +67,7 @@ public class TambahTransaksi {
             isInputLaundry = Utils.addMoreLaundry();
         } while (isInputLaundry);
 
-        System.out.println("====== DETAIL TRANSAKSI =======");
+        System.out.println("=============== DETAIL TRANSAKSI ==================");
         for (int i = 0; i < carts.size(); i++) {
             Cart item = carts.get(i);
             String qty = item.getLaundry().getType() == TypeLaundry.KILOAN ? String.valueOf(item.getWeight()) + " Kg"
@@ -76,10 +76,12 @@ public class TambahTransaksi {
                     "("+item.getService().getName() + ") Rp" + String.format("%,.0f", item.getTotalPrice()));
             totalBill += item.getTotalPrice();
         }
+        System.out.println("---------------------------------------------------");
         System.out.println("TOTAL HARUS DIBAYAR: Rp" + String.format("%,.0f", totalBill));
-        System.out.println("===============================");
+        System.out.println("===================================================");
 
         boolean isPaymentProcess = false;
+        float kembalian = 0;
 
         do {
             System.out.print("Masukan nominal bayar (Rp): ");
@@ -88,24 +90,17 @@ public class TambahTransaksi {
                 System.out.println("Nominal yang anda masukan kurang!");
                 isPaymentProcess = true;
             } else {
-                System.out.println("=== Transaksi Berhasil ===");
-                float kembalian = 0;
+                System.out.println("                      TRANSAKSI BERHASIL!                       ");
                 kembalian = nominalPay - totalBill;
-                if(kembalian > 0) {
-                    System.out.println("Nominal Kembalian: "+ String.format("%,.0f", kembalian));
-                }
                 isPaymentProcess = false;
             }
         } while (isPaymentProcess);
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        DateTimeFormatter dateFormatterKwitansi = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        LocalDateTime now = LocalDateTime.now();
-        String timeNow = dtf.format(now);
-        String noKwitansi = dateFormatterKwitansi.format(now);
 
-        Transaksi transaksi = new Transaksi(noKwitansi, pelanggan, carts, timeNow, totalBill);
-        Utils.showKwitansi(transaksi);
+
+
+        Transaksi transaksi = new Transaksi(Utils.getDateTimeNow(), pelanggan, carts, Utils.generateKwitansi(), totalBill);
+        Utils.showKwitansi(transaksi, kembalian);
         return transaksi;
     }
 }

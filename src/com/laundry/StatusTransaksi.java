@@ -1,9 +1,7 @@
 package com.laundry;
 
 public enum StatusTransaksi {
-    PENDING("Belum Dicuci"),
-    PROCESS("Dicuci"),
-    WAITING("Siap Diambil"),
+    PROCESS("Poses Laundry"),
     DONE("Diambil");
 
     public String status;

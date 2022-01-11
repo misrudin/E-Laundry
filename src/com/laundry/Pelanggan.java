@@ -2,7 +2,7 @@ package com.laundry;
 
 public class Pelanggan {
     private String name;
-    private String phone;
+    String phone;
 
     public Pelanggan(String name, String phone) {
         this.name = name;

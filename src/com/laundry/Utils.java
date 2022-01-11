@@ -143,11 +143,12 @@ public class Utils {
     }
 
     //return a string now date +estimate by hour
-    static String getEstimateFrom(String dateString, int estimate) throws ParseException {
+    static String getEstimateFrom(String dateString, double estimate) throws ParseException {
         Calendar cal = Calendar.getInstance();
         Date date = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.ENGLISH).parse(dateString);
         cal.setTime(date);
-        cal.add(Calendar.HOUR, + estimate);
+        int estimete = (int) estimate;
+        cal.add(Calendar.HOUR, + estimete);
         Date result = cal.getTime();
         DateFormat dtf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         return dtf.format(result);

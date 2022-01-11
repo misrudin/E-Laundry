@@ -4,9 +4,9 @@ public class Service {
     private int id;
     private String name;
     private float price;
-    private int estimate;
+    private double estimate;
 
-    public Service(int id, String name, float price, int estimate) {
+    public Service(int id, String name, float price, double estimate) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -29,11 +29,11 @@ public class Service {
         this.price = price;
     }
 
-    public int getEstimate() {
+    public double getEstimate() {
         return estimate;
     }
 
-    public void setEstimate(int estimate) {
+    public void setEstimate(double estimate) {
         this.estimate = estimate;
     }
 

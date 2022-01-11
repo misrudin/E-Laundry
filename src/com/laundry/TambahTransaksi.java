@@ -1,8 +1,6 @@
 package com.laundry;
 
 import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -22,12 +20,13 @@ public class TambahTransaksi {
         laundryList.add(new Laundry(2, "Selimut", 20000, TypeLaundry.SATUAN));
         laundryList.add(new Laundry(3, "Boneka", 8000, TypeLaundry.KILOAN));
         laundryList.add(new Laundry(4, "Sepatu Dewasa", 13000, TypeLaundry.SATUAN));
-        laundryList.add(new Laundry(4, "Sepatu Anak", 7000, TypeLaundry.SATUAN));
+        laundryList.add(new Laundry(5, "Sepatu Anak", 7000, TypeLaundry.SATUAN));
 
         serviceList.add(new Service(1, "Regular", 0, 72));
         serviceList.add(new Service(2, "Express", 5000, 12));
         serviceList.add(new Service(3, "Regular - Antar Jemput", 7000, 72));
         serviceList.add(new Service(4, "Express - Antar Jemput", 7000, 12));
+        serviceList.add(new Service(5, "Super Express", 7000, 0.05));
 
         System.out.print("Silahkan masukan nama pelanggan: ");
         String name = input.nextLine();

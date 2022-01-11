@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TambahTransaksi {
-    static Transaksi tambahTransaksi() throws ParseException {
+    public static Transaksi tambahTransaksi() throws ParseException {
         Scanner input = new Scanner(System.in);
         Pelanggan pelanggan = new Pelanggan("", "");
         List<Cart> carts = new ArrayList<>();

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LaporanHarian {
-    static void laporanHarian(List<Transaksi> listTransaction) throws ParseException {
+    public static void laporanHarian(List<Transaksi> listTransaction) throws ParseException {
         if (listTransaction.size() == 0) {
             System.out.println("Belum ada transaksi.");
             return;

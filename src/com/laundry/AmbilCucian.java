@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AmbilCucian {
-    static void ambilCucian(List<Transaksi> listTransaction) throws ParseException {
+    public static void ambilCucian(List<Transaksi> listTransaction) throws ParseException {
         Scanner input = new Scanner(System.in);
         boolean isRunning = true;
 
@@ -52,7 +52,7 @@ public class AmbilCucian {
                 String noKwitansi = input.nextLine();
                 Transaksi hasRow = Utils.findTransaksiByKwitansi(noKwitansi, hasRows);
                 if (hasRow != null) {
-                    boolean changeStatus = ambilCucian(hasRow);
+                    boolean changeStatus = processAmbilCucian(hasRow);
                     if(changeStatus) {
                         int index = getIndex(hasRow, listTransaction);
                         listTransaction.get(index).setStatus(StatusTransaksi.DONE);
@@ -82,7 +82,7 @@ public class AmbilCucian {
             String kwitansi = input.nextLine();
             Transaksi hasRow = Utils.findTransaksiByKwitansi(kwitansi, listTransaction);
             if (hasRow != null) {
-                boolean changeStatus = ambilCucian(hasRow);
+                boolean changeStatus = processAmbilCucian(hasRow);
                 if(changeStatus) {
                     int index = getIndex(hasRow, listTransaction);
                     listTransaction.get(index).setStatus(StatusTransaksi.DONE);
@@ -107,7 +107,7 @@ public class AmbilCucian {
         return listTransaction.indexOf(transaksi);
     }
 
-    static boolean ambilCucian(Transaksi transaksi) throws ParseException {
+    static boolean processAmbilCucian(Transaksi transaksi) throws ParseException {
         if(transaksi.status == StatusTransaksi.DONE) {
             System.out.println("+-------------------------------------------------------------+");
             System.out.println("+      Cucian sudah diambil pada tanggal: " + transaksi.getUpdateAt() + "     +");

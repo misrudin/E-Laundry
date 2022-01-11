@@ -18,7 +18,7 @@ public class Utils {
     }
 
     //output main menu
-    static int showListMenu() {
+    public static int showListMenu() {
         System.out.println("SELAMAT DATANG DI MENU UTAMA");
         Scanner input = new Scanner(System.in);
         String space = "   ";
@@ -37,7 +37,7 @@ public class Utils {
     }
 
     //output laoundry list
-    static void showLaundryList(List<Laundry> laundryList) {
+    public static void showLaundryList(List<Laundry> laundryList) {
         System.out.println("Mau nyuci apa ?");
         Table table = new Table();
         List<String> headers = new ArrayList<>();
@@ -61,7 +61,7 @@ public class Utils {
     }
 
     //ouput service list
-    static void showServiceList(List<Service> serviceList) {
+    public static void showServiceList(List<Service> serviceList) {
         System.out.println("Mau pakai service apa ?");
         Table table = new Table();
         List<String> headers = new ArrayList<>();
@@ -85,17 +85,17 @@ public class Utils {
     }
 
     //selected item laundry by index input
-    static Laundry findLaundryItem(int selected, List<Laundry> laundryList) {
+    public static Laundry findLaundryItem(int selected, List<Laundry> laundryList) {
         return laundryList.get(selected - 1);
     }
 
     //selected item service by index input
-    static Service findServiceItem(int selected, List<Service> serviceList) {
+    public static Service findServiceItem(int selected, List<Service> serviceList) {
         return serviceList.get(selected - 1);
     }
 
     //find transaksi by nomor kwitansi
-    static Transaksi findTransaksiByKwitansi(String noKwitansi, List<Transaksi> listTransaction) {
+    public  static Transaksi findTransaksiByKwitansi(String noKwitansi, List<Transaksi> listTransaction) {
         for (Transaksi transaksi : listTransaction) {
             if (transaksi.noKwitansi.equals(noKwitansi)) {
                 return transaksi;
@@ -105,14 +105,14 @@ public class Utils {
     }
 
     //filter list transaksi bt phone number
-    static List<Transaksi> findTransaksiByPhone(String phone, List<Transaksi> listTransaction) {
+    public static List<Transaksi> findTransaksiByPhone(String phone, List<Transaksi> listTransaction) {
         return listTransaction.stream()
                 .filter(item -> item.pelanggan.phone.equals(phone))
                 .collect(Collectors.toList());
     }
 
     //output kwitansi/invoice
-    static void showKwitansi(Transaksi transaksi, float kembalian) throws ParseException {
+    public static void showKwitansi(Transaksi transaksi, float kembalian) throws ParseException {
         List<Cart> carts = transaksi.getCarts();
         float totalBill = 0;
 
@@ -143,7 +143,7 @@ public class Utils {
     }
 
     //return a string now date +estimate by hour
-    static String getEstimateFrom(String dateString, double estimate) throws ParseException {
+    public static String getEstimateFrom(String dateString, double estimate) throws ParseException {
         Calendar cal = Calendar.getInstance();
         Date date = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.ENGLISH).parse(dateString);
         cal.setTime(date);
@@ -155,7 +155,7 @@ public class Utils {
     }
 
     //print table transaksi
-    static void printTransaksiIntoTable(List<Transaksi> listTransaction) {
+    public static void printTransaksiIntoTable(List<Transaksi> listTransaction) {
         Table table = new Table();
         List<String> headers = new ArrayList<>();
         headers.add("No. Kwitansi");
@@ -188,21 +188,21 @@ public class Utils {
     }
 
     //time now in string
-    static String getDateTimeNow() {
+    public static String getDateTimeNow() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
     }
 
     //kwitansi string
-    static String generateKwitansi() {
+    public static String generateKwitansi() {
         DateTimeFormatter dateFormatterKwitansi = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         LocalDateTime now = LocalDateTime.now();
         return dateFormatterKwitansi.format(now);
     }
 
     //diference date now && transaksi created at
-    static long dateDiff(String createdAt) throws ParseException {
+    public static long dateDiff(String createdAt) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Date dateNow = new Date();
         Date date1 = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.ENGLISH).parse(formatter.format(dateNow));
